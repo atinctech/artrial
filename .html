@@ -1,0 +1,52 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Augmented Reality</title>
+  </head>
+  <body>
+    <!-- Upload form -->
+    <form id="form">
+      <input type="file" id="image-input" accept="image/jpeg">
+      <button type="submit">Upload</button>
+    </form>
+
+    <!-- AR container -->
+    <div id="ar-container"></div>
+
+    <!-- AR.js library -->
+    <script src="https://cdn.jsdelivr.net/npm/@ar-js-org/ar.js@4.4.0/dist/aframe-ar.js"></script>
+
+    <!-- AR script -->
+    <script>
+      // Get the form and image input elements
+      const form = document.querySelector('#form');
+      const imageInput = document.querySelector('#image-input');
+
+      // Handle form submission
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+
+        // Get the selected image
+        const image = imageInput.files[0];
+        if (!image) {
+          return;
+        }
+
+        // Create an AR.js entity for the selected image
+        const arImage = document.createElement('a-image');
+        arImage.setAttribute('src', URL.createObjectURL(image));
+        arImage.setAttribute('marker-type', 'pattern');
+        arImage.setAttribute('marker-tracking', 'false');
+        arImage.setAttribute('detector-property', 'bestMatch');
+        arImage.setAttribute('marker-reference', 'pattern_id');
+        arImage.setAttribute('visible', 'true');
+
+        // Add the AR.js entity to the AR container
+        const arContainer = document.querySelector('#ar-container');
+        arContainer.appendChild(arImage);
+      });
+    </script>
+  </body>
+</html>
