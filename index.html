@@ -6,12 +6,6 @@
     <title>Augmented Reality</title>
   </head>
   <body>
-    <!-- Upload form -->
-    <form id="form">
-      <input type="file" id="image-input" accept="image/jpeg">
-      <button type="submit">Upload</button>
-    </form>
-
     <!-- AR container -->
     <div id="ar-container"></div>
 
@@ -20,33 +14,26 @@
 
     <!-- AR script -->
     <script>
-      // Get the form and image input elements
-      const form = document.querySelector('#form');
-      const imageInput = document.querySelector('#image-input');
+      // Get the AR container element
+      const arContainer = document.querySelector('#ar-container');
 
-      // Handle form submission
-      form.addEventListener('submit', (event) => {
-        event.preventDefault();
+      // Create an AR.js entity for the image marker
+      const arMarker = document.createElement('a-image');
+      arMarker.setAttribute('marker-type', 'pattern');
+      arMarker.setAttribute('marker-tracking', 'false');
+      arMarker.setAttribute('detector-property', 'bestMatch');
+      arMarker.setAttribute('marker-reference', 'pattern_id');
+      arMarker.setAttribute('visible', 'true');
+      arContainer.appendChild(arMarker);
 
-        // Get the selected image
-        const image = imageInput.files[0];
-        if (!image) {
-          return;
-        }
+      // Create an AR.js entity for the AR content
+      const arContent = document.createElement('a-image');
+      arContent.setAttribute('position', '1 0 0');
+      arContent.setAttribute('visible', 'false');
+      arContainer.appendChild(arContent);
 
-        // Create an AR.js entity for the selected image
-        const arImage = document.createElement('a-image');
-        arImage.setAttribute('src', URL.createObjectURL(image));
-        arImage.setAttribute('marker-type', 'pattern');
-        arImage.setAttribute('marker-tracking', 'false');
-        arImage.setAttribute('detector-property', 'bestMatch');
-        arImage.setAttribute('marker-reference', 'pattern_id');
-        arImage.setAttribute('visible', 'true');
-
-        // Add the AR.js entity to the AR container
-        const arContainer = document.querySelector('#ar-container');
-        arContainer.appendChild(arImage);
-      });
+      // Show the camera view
+      arContainer.setAttribute('arjs', 'trackingMethod: best;');
     </script>
   </body>
 </html>
